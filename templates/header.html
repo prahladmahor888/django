@@ -1,0 +1,62 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Resume</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item {% if docs == docs %}active{% endif %}">
+            <a class="nav-link" href="docs">Docs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="example">Example</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about">About</a>
+          </li>
+          {% if request.user.is_superuser %}
+            
+            <li class="nav-item">
+              <a class="nav-link" href="admin">Admin</a>
+            </li>
+
+          {% endif %}
+          
+        </ul>
+        <form class="d-flex">
+          {% if user.is_authenticated %}
+            <div class="dropdown">
+              <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="static/images/friend.jpg" alt="mdo" width="24" height="24" class="rounded-circle"> <strong> {{request.user}} </strong> 
+              </a>
+              <ul class="dropdown-menu text-small shadow">
+                  <li><a class="dropdown-item" href="#">New project...</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="profile">Profile</a></li>
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="logout">Sign out</a></li>
+              </ul>
+          </div>
+          {% else %}
+            <a class="btn btn-primary mx-1" href="login">Login</a>
+            <a class="btn btn-success" href="signup">Register</a>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>

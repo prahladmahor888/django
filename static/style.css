@@ -1,0 +1,12 @@
+.carousel-item img{
+    height: 400px;
+
+}
+.show-image{
+    width: 100;
+    margin-bottom: 20px;
+    display: none;
+}
+.event img{
+    width: 21rem;
+}

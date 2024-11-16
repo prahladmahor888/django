@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellcome Image-Proccessing</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  {% include "header.html" %}
+  <div id="carouselExampleCaptions" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'images/technology-7111763_1920.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Try your luck </h5>
+          <p>Some representative placeholder content for the first slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/laptop-2592008_1920.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Second slide label</h5>
+          <p>Some representative placeholder content for the second slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/software-developer-6521720_1920.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Third slide label</h5>
+          <p>Some representative placeholder content for the third slide.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="container w-100 justify-content-center">
+    <div class="d-flex row row-cols-2 row-cols-md-2 g-4 gap-2 mt-3 justify-content-center">
+      {% for event in card %}
+        <div class="card m-0 p-2 event" style="width: 22rem;">
+            <img src="{{event.eventImage.url}}" class="card-img-top">
+            <div class="card-body p-0">
+              <p class="card-text mb-0">{{event.eventText}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+  {% for data in images %}
+  <img src="/{{request.image.url}}" alt="">
+  {% endfor %}
+
+{% if user.is_authenticated %}
+<div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+  <div class="card card-fat m-4 p-4" style="width: 40%;">
+    <img id="image-preview" src="#" class="show-image">
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="file" id="file" class="form-control mb-3" accept=".png, .jpg, .pdf" required>
+      <input type="hidden" name="url" id="url">
+      <button type="submit" onclick="upload()" class="btn btn-primary form-control">Submit</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% comment %} 
+{% for images in img  %}
+  <div>
+    <img src="{{images.image.url}}" width="100" alt="image">
+  </div>
+{% endfor %} 
+{% endcomment %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>
