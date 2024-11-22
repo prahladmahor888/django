@@ -22,7 +22,7 @@ def home(request):
 
         myimage = Image.open(image)
         text = pytesseract.image_to_string(myimage)
-
+        text = text.find("EDUCATION")
         userImage = UploadImage(first_name=fname, last_name=lname, userid=userid, image=image)
         userImage.save()
         # myimage = cv2.imread(image)
