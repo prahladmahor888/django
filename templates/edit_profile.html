@@ -18,7 +18,7 @@
 
 <body>
     <div class="modal">
-       <img src="/{{profile.userImage.url}}" alt="">
+        <img id="image-preview" src="#" class="show-image">
     </div>
     
     <div class="container">
@@ -32,10 +32,12 @@
                     <div class="main">
                         <div class="image">
                             <div class="hover">
+                                
                                 <label for="fileInput">
-                                    <i class="fas fa-camera fa-2x"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="#e8eaed"><path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
                                 </label>
-                                <input id="fileInput" type="file" name="profileimage" accept=".jpg, .png, .mp4, .jpeg" hidden>
+                                <input id="fileInput" type="file" name="profileimage" value="{% for user in profile %}{{user.userImage.url}}{% endfor %}" accept=".jpg, .png, .mp4, .jpeg" hidden>
+                                <input type="hidden" name="url" id="url">
                             </div>
                         </div>
                         <h3 class="name"> {{request.user.first_name}} {{request.user.last_name}} </h3>
@@ -47,7 +49,7 @@
                     <div class="left">
                         <div class="about-container">
                             <h3 class="title"> About Me ! </h3>
-                            <textarea name="userAbout" class="text form-control">{{profile.userAbout}}</textarea>
+                            <textarea name="userAbout" class="text form-control">{% for user in profile %}{{user.userAbout}}{% endfor %}</textarea>
                         </div>
                         
                         <div class="buttons-wrap">
@@ -65,23 +67,17 @@
     </div>
 
     <script>
-        const image = document.querySelector('.image');
-        const hover = document.querySelector('.hover');
-        const modal = document.querySelector('.modal');
-        const close = document.querySelector('.close');
-
-        function show(){
-            hover.classList.add('active');
-            modal.classList.add('show');
-        }
-
-        function hide(){
-            hover.classList.remove('active');
-            modal.classList.remove('show');
-        }
-
-        image.addEventListener('click', show);
-        close.addEventListener('click', hide);
+        document.querySelector('input[type="file"]').addEventListener('change', function(event) { 
+            const [file] = event.target.files; 
+            if (file) { 
+              const reader = new FileReader(); 
+              reader.onload = function(e) { 
+                const preview = document.getElementById('image-preview'); 
+                preview.src = e.target.result; preview.style.display = 'block'; 
+              } 
+              reader.readAsDataURL(file); 
+            } 
+          }); 
     </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

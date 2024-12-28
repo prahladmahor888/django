@@ -18,7 +18,9 @@
 
 <body>
     <div class="modal">
-        <img src="img/profile.jpg" alt="">
+        {% for User in user %}
+        <img src="{{User.userImage.url}}" alt="..">
+        {% endfor %}
         <div class="close"></div>
     </div>
     
@@ -34,7 +36,7 @@
                 <div class="main">
                     <div class="image">
                         <div class="hover">
-                            <i class="fas fa-camera fa-2x"></i>
+                            
                         </div>
                     </div>
                     <h3 class="name"> {{request.user.first_name}} {{request.user.last_name}} </h3>
@@ -46,7 +48,9 @@
                 <div class="left">
                     <div class="about-container">
                         <h3 class="title"> About Me ! </h3>
-                        <p class="text"> Multi Stack Developer | Assoc EDC Programmer | Software Engineer | Designer | Community Builder | </p>
+                        {% for User in user %}
+                        <p class="text"> {{User.userAbout}} </p>
+                        {% endfor %}
                     </div>
                     <div class="icons-container">
                        
@@ -109,22 +113,22 @@
 
     <script>
         const image = document.querySelector('.image');
-const hover = document.querySelector('.hover');
-const modal = document.querySelector('.modal');
-const close = document.querySelector('.close');
+        const hover = document.querySelector('.hover');
+        const modal = document.querySelector('.modal');
+        const close = document.querySelector('.close');
 
-function show(){
-    hover.classList.add('active');
-    modal.classList.add('show');
-}
+        function show(){
+            hover.classList.add('active');
+            modal.classList.add('show');
+        }
 
-function hide(){
-    hover.classList.remove('active');
-    modal.classList.remove('show');
-}
+        function hide(){
+            hover.classList.remove('active');
+            modal.classList.remove('show');
+        }
+        image.addEventListener('click', show);
+        close.addEventListener('click', hide);
 
-image.addEventListener('click', show);
-close.addEventListener('click', hide);
     </script>
 </body>
 </html>

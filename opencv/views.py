@@ -7,8 +7,10 @@ from .models import createuser, UploadImage, cardEvent, userInfo
 from django.core.mail import send_mail
 from django.conf import settings
 from PIL import Image
-import random, pytesseract, cv2
-pytesseract.pytesseract.tesseract_cmd = r'C:\Users\drbra\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+import random, pytesseract, cv2, re
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Users\drbra\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Prahlad\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+
 
 
 # Create your views here.
@@ -22,12 +24,42 @@ def home(request):
 
         myimage = Image.open(image)
         text = pytesseract.image_to_string(myimage)
+        heading_pattern = r'^[A-Z][A-Z0-9\s]*:?\s*$'
+        lines = text.split("\n")
+        sections = {}
+        current_heading = None
+        current_text = []
 
-        userImage = UploadImage(first_name=fname, last_name=lname, userid=userid, image=image)
-        userImage.save()
+        for line in lines:
+            if re.match(heading_pattern, line.strip()):  # Check if line matches the heading pattern
+                if current_heading:  # Save the current section
+                    sections[current_heading] = "\n".join(current_text)
+                current_heading = line.strip()  # Update the heading
+                current_text = []  # Reset the text for the next section
+            else:
+                current_text.append(line.strip())  # Append text under the current heading
+
+        # Don't forget to save the last section
+        if current_heading:
+            sections[current_heading] = "\n".join(current_text)
+
+        # Display sections
+        for heading, section_text in sections.items():
+            print(f"Heading: {heading}")
+            print(f"Content: {section_text}")
+            print("=" * 20)
+            
+        # text = pytesseract.image_to_string(myimage)
+        # words = text.split()
+        # for word in words:
+        #     if (word.lower() == "education") or (word.lower() == "experience"):
+        #         print(word)
+            
+        # userImage = UploadImage(first_name=fname, last_name=lname, userid=userid, image=image)
+        # userImage.save()
         # myimage = cv2.imread(image)
         # show = cv2.imshow('img', myimage)
-        return render(request, "home.html", {'text': text})
+        return render(request, "home.html", {'text': sections})
     img = UploadImage.objects.all().order_by("-id")
     card = cardEvent.objects.all().order_by("-id")
     return render(request, "home.html", {"img": img, "card": card})
@@ -144,8 +176,9 @@ def otp(request):
     return render(request, "otp.html")
 
 def profile(request):
-    return render(request, "profile.html")
+    userinfo = userInfo.objects.all().order_by("-id")
 
+    return render(request, "profile.html", {"user": userinfo})
 def editProfile(request):
     if request.method == "POST":
         username = request.user
@@ -157,3 +190,6 @@ def editProfile(request):
         return render(request, 'profile.html',{"profile": profile})
     profile = userInfo.objects.order_by('-id')
     return render(request, "edit_profile.html", {"profile": profile})
+
+def imagetext():
+    pass

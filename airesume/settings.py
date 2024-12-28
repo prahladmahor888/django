@@ -78,12 +78,14 @@ WSGI_APPLICATION = 'airesume.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',
-        'USER': 'root',
-        'PASSWORD': 'Mr.x@123',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'django',
+        # 'USER': 'root',
+        # 'PASSWORD': 'Admin',
+        # 'HOST': 'localhost',
+        # 'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -142,4 +144,4 @@ EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'prahladmahor888@gmail.com'
-EMAIL_HOST_PASSWORD = 'tgssgomaeknxqrgd'
+EMAIL_HOST_PASSWORD = 'pvxpdysjffjdwmsk'
